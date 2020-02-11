@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Proxima Nova Rg';
+    src: url('ProximaNova-Regular.eot');
+    src: url('ProximaNova-Regular.eot?#iefix') format('embedded-opentype'),
+        url('ProximaNova-Regular.woff2') format('woff2'),
+        url('ProximaNova-Regular.woff') format('woff'),
+        url('ProximaNova-Regular.ttf') format('truetype'),
+        url('ProximaNova-Regular.svg#ProximaNova-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bickham Script Std';
+    src: url('BickhamScriptStd-Regular.eot');
+    src: url('BickhamScriptStd-Regular.eot?#iefix') format('embedded-opentype'),
+        url('BickhamScriptStd-Regular.woff2') format('woff2'),
+        url('BickhamScriptStd-Regular.woff') format('woff'),
+        url('BickhamScriptStd-Regular.ttf') format('truetype'),
+        url('BickhamScriptStd-Regular.svg#BickhamScriptStd-Regular') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+

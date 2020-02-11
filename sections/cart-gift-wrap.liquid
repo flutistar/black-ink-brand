@@ -1,0 +1,128 @@
+{% if section.settings.enable_cart_gift_wrap %}
+<style>
+  #section-{{ section.id }} {
+    margin-bottom: 20px;
+  }
+  #section-{{ section.id }} table tr:first-child th:after, 
+  #section-{{ section.id }} table tr:first-child td:after{
+    border: 0;
+  }
+  #section-{{ section.id }} table{
+    border: 2px solid #ec008c;
+  }
+  #section-{{ section.id }} table td{
+    padding: 5px;
+  }
+  #section-{{ section.id }} h4{
+    margin-bottom: 0;
+  }
+  #section-{{ section.id }} .gift-price{
+    font-size: 16px;
+    font-weight: 600;
+  }
+  #section-{{ section.id }} .td-product-image{
+    width: 100px;
+    
+  }
+  #section-{{ section.id }} .td-product-image img{
+    max-width: 100%;
+    height: auto;
+    padding: 5px;
+  }
+  #section-{{ section.id }} .td-title{
+    min-width: 20%;
+  }
+  #section-{{ section.id }} .td-variants select,
+  #section-{{ section.id }} .td-quantity input{
+    border: 1px solid #000;
+  }
+  #section-{{ section.id }} .td-quantity{
+    max-width: 70px;
+    min-width: 70px;
+  }
+  #section-{{ section.id }} .td-button{
+    text-align: right;
+  }
+</style>
+
+{% if section.settings.product_cart_gift_wrap %}
+
+{% assign product = all_products[section.settings.product_cart_gift_wrap] %}
+<div id="section-{{ section.id }}" class="gift-wrap-box">
+  <div style="text-align: center;">
+    <h4 style="margin: 10px auto;">Add a Gift Wrapper</h4>
+  </div>
+  
+  {% form 'product', product %}
+
+  <table>
+    <tr>
+      <td class="td-product-image">
+          <img src="{{ product.featured_image | img_url: 'master' }}">
+        </td>
+        <td class="td-title">
+          <h4>{{ product.title }}</h4>
+        </td>
+        
+      <td class="td-variants">
+        
+        <select name="id" id="ProductSelect" class="no-js">
+                {% for variant in product.variants %}
+                  {% if variant.available %}
+                    <option {% if variant == product.selected_or_first_available_variant %}
+                      selected="selected" {% endif %}
+                      data-sku="{{ variant.sku }}"
+                      value="{{ variant.id }}">
+                      {{ variant.title }} - {{ variant.price | money_with_currency }}
+                    </option>
+                  {% else %}
+                    <option disabled="disabled">
+                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                    </option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+        
+      </td>
+        <td class="td-quantity">
+          <input type="number" min="1" value="1">
+        </td>
+        <td class="td-button">
+          <button type="submit" class="btn--secondary update-cart">Add to Cart</button>
+          <a href="{{ product.url }}" class="btn--secondary update-cart">Details</a>
+        </td>
+      </tr>
+  </table>
+  {% endform %}
+</div>
+
+
+
+{% endif %}
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Gift Wrap",
+    "settings": [
+		{
+			"type": "checkbox",
+			"id": "enable_cart_gift_wrap",
+			"label": "Enable Gift Wrap on cart page",
+			"default": false
+		},
+		{
+			"type": "product",
+			"id": "product_cart_gift_wrap",
+			"label": "Select Product"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

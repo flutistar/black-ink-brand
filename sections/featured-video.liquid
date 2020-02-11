@@ -1,0 +1,121 @@
+<div class="wrapper">
+  {% if section.settings.heading != blank %}
+    <div class="section-header text-center">
+      <h2 class="h1 section-header__title">{{ section.settings.heading | escape }}</h2>
+      <hr class="hr--small">
+    </div>
+  {% endif %}
+  <div class="grid">
+    <div class="grid__item one-whole">
+      <div class="video-wrapper">
+        {% if section.settings.video_url == blank %}
+          <iframe src="//www.youtube.com/embed/_9VUPq3SxOc?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+        {% else %}
+          {% if section.settings.video_url.type == "youtube" %}
+            <iframe src="//www.youtube.com/embed/{{ section.settings.video_url.id }}?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+          {% endif %}
+          {% if section.settings.video_url.type == "vimeo" %}
+            <iframe src="//player.vimeo.com/video/{{ section.settings.video_url.id }}?color={{ settings.color_secondary | remove: "#" }}&byline=0&portrait=0&badge=0" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "de": "Video",
+    "en": "Video",
+    "es": "Video",
+    "fr": "Vidéo",
+    "it": "Video",
+    "ja": "ビデオ",
+    "nl": "Video",
+    "pt-BR": "Vídeo",
+    "zh-CN": "视频",
+    "zh-TW": "影片"
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": {
+        "de": "Überschrift",
+        "en": "Heading",
+        "es": "Título",
+        "fr": "Titre",
+        "it": "Heading",
+        "ja": "見出し",
+        "nl": "Kop",
+        "pt-BR": "Título",
+        "zh-CN": "标题",
+        "zh-TW": "標題"
+      },
+      "default": {
+        "de": "Video",
+        "en": "Video",
+        "es": "Video",
+        "fr": "Vidéo",
+        "it": "Video",
+        "ja": "ビデオ",
+        "nl": "Video",
+        "pt-BR": "Vídeo",
+        "zh-CN": "视频",
+        "zh-TW": "影片"
+      }
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": {
+        "de": "Videolink",
+        "en": "Video link",
+        "es": "Enlace de video",
+        "fr": "Lien de la vidéo",
+        "it": "Link video",
+        "ja": "ビデオリンク",
+        "nl": "Videolink",
+        "pt-BR": "Link do vídeo",
+        "zh-CN": "视频链接",
+        "zh-TW": "影片連結"
+      },
+      "accept": [
+        "youtube",
+        "vimeo"
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "de": "Video",
+        "en": "Video",
+        "es": "Video",
+        "fr": "Vidéo",
+        "it": "Video",
+        "ja": "ビデオ",
+        "nl": "Video",
+        "pt-BR": "Vídeo",
+        "zh-CN": "视频",
+        "zh-TW": "影片"
+      },
+      "category": {
+        "de": "Video",
+        "en": "Video",
+        "es": "Video",
+        "fr": "Vidéo",
+        "it": "Video",
+        "ja": "動画",
+        "nl": "Video",
+        "pt-BR": "Vídeo",
+        "zh-CN": "视频",
+        "zh-TW": "影片"
+      }
+    }
+  ]
+}
+{% endschema %}

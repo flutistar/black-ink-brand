@@ -1,0 +1,96 @@
+<!-- /templates/page.contact.liquid -->
+<div class="grid">
+
+  <div class="grid__item large--five-sixths push--large--one-twelfth">
+
+    <header class="section-header text-center">
+      <h1>{{ page.title }}</h1>
+      <hr class="hr--small">
+    </header>
+    <p class="text-center">869 Swarthmore  Avenue Pacific Palisades, CA 90272<br /></p>
+    {% if section.settings.contact_announcement %}
+    <p class="text-center" style="color: {{ section.settings.contact_announcement_color }}">{{ section.settings.contact_announcement }}</p>
+    {% endif %}
+    <div class="grid">
+       <div class="grid__item grid-product one-whole medium--one-half  large--one-half  ">
+        <div class="rte rte--nomargin rte--indented-images">
+          {{ page.content }}
+        </div>
+      </div>
+      <div class="grid__item grid-product grid__item--large one-whole medium--one-half large--one-half">
+
+
+        <div class="form-vertical">
+          {% form 'contact' %}
+
+            {% comment %}
+              Successful message
+            {% endcomment %}
+            {% if form.posted_successfully? %}
+              <p class="note form-success">
+                {{ 'contact.form.post_success' | t }}
+              </p>
+            {% endif %}
+
+            {{ form.errors | default_errors }}
+
+            <div class="grid grid--small">
+              <div class="grid__item large--one-half">
+                <label for="ContactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
+                <input type="text" id="ContactFormName" class="input-full" name="contact[name]" placeholder="First Name" autocapitalize="words" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+              </div>
+
+              <div class="grid__item large--one-half">
+                <label for="ContactFormLastName" class="hidden-label">{{ 'contact.form.lastname' | t }}</label>
+                <input type="text" id="ContactFormLastName" class="input-full" name="contact[lastname]" placeholder="Last Name" autocorrect="off" autocapitalize="off" value="{% if form.lastname %}{{ form.lastname }}{% elsif customer %}{{ customer.lastname }}{% endif %}">
+              </div>
+            </div>
+            <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+                <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+            <label for="ContactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
+            <input type="tel" id="ContactFormPhone" class="input-full" name="contact[phone]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+            <label for="ContactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
+            <textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+            <input type="submit" class="btn right" value="{{ 'contact.form.send' | t }}">
+
+          {% endform %}
+        </div>
+      </div>
+    </div>
+    <div class="embed-responsive embed-responsive-21by9">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.890709579405!2d-118.52839438356163!3d34.04667448060758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2a37a3bfc9fcd%3A0x796ac0585132a440!2s869+N+Swarthmore+Ave%2C+Pacific+Palisades%2C+CA+90272%2C+USA!5e0!3m2!1sen!2s!4v1559085265237!5m2!1sen!2s" width="1000" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+    
+    <div>
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Contact Page",
+    "settings": [
+    	{
+    		"type": "text",
+    		"id": "contact_announcement",
+    		"label": "Add contact announcement"
+    	},
+    	{
+    		"type": "color",
+    		"id": "contact_announcement_color",
+    		"label": "Contact announcement text color",
+    		"default": "#000"
+    	}
+    	
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

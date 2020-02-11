@@ -1,0 +1,121 @@
+<!-- /templates/collection.liquid -->
+<div id="CollectionSection" data-section-id="{{ section.id }}" data-section-type="collection-template" data-grid-type="{{ section.settings.collection_products_grid }}">
+  {% include 'collection-template' %}
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "de": "Kategorieseiten",
+    "en": "Collection pages",
+    "es": "Páginas de colección",
+    "fr": "Pages de collection",
+    "it": "Pagine delle collezioni",
+    "ja": "コレクションページ",
+    "nl": "Collectiepagina's",
+    "pt-BR": "Páginas de Coleções",
+    "zh-CN": "产品系列页面",
+    "zh-TW": "商品系列頁面"
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection_products_grid",
+      "label": {
+        "de": "Rasterstil",
+        "en": "Grid style",
+        "es": "Estilo de cuadrícula",
+        "fr": "Style de grille",
+        "it": "Stile griglia",
+        "ja": "グリッドスタイル",
+        "nl": "Rasterstijl",
+        "pt-BR": "Estilo da grade",
+        "zh-CN": "网格样式",
+        "zh-TW": "網格樣式"
+      },
+      "options": [
+        {
+          "value": "collage",
+          "label": {
+            "de": "Collage",
+            "en": "Collage",
+            "es": "Collage",
+            "fr": "Collage",
+            "it": "Collage",
+            "ja": "コラージュ",
+            "nl": "Collage",
+            "pt-BR": "Colagem",
+            "zh-CN": "拼贴画",
+            "zh-TW": "拼貼"
+          }
+        },
+        {
+          "value": "grid",
+          "label": {
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fr": "Grille",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "nl": "Raster",
+            "pt-BR": "Grade",
+            "zh-CN": "网格",
+            "zh-TW": "網格"
+          }
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_sort_enable",
+      "label": {
+        "de": "Kategoriesortierung aktivieren",
+        "en": "Enable collection sorting",
+        "es": "Habilitar la la función ordenar colecciones",
+        "fr": "Activer le tri de la collection",
+        "it": "Abilita ordinamento collezione",
+        "ja": "コレクションの並べ替えを有効にする",
+        "nl": "Sorteren op collectie inschakelen",
+        "pt-BR": "Ativar a ordenação de coleções",
+        "zh-CN": "启用产品系列排序",
+        "zh-TW": "啟用商品系列排序功能"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_tags_enable",
+      "label": {
+        "de": "Kategorie-Tags anzeigen",
+        "en": "Show collection tags",
+        "es": "Mostrar etiquetas de colección",
+        "fr": "Afficher les balises de la collection",
+        "it": "Mostra tag della collezione",
+        "ja": "コレクションのタグを表示する",
+        "nl": "Toon collectie-tags",
+        "pt-BR": "Exibir tags de coleção",
+        "zh-CN": "显示产品系列标记",
+        "zh-TW": "顯示商品系列標籤"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "product_vendor_enable",
+      "label": {
+        "de": "Produktverkäufer anzeigen",
+        "en": "Show product vendor",
+        "es": "Mostrar proveedor del producto",
+        "fr": "Afficher le distributeur du produit",
+        "it": "Indica fornitore prodotto",
+        "ja": "商品の販売元を表示する",
+        "nl": "Productleverancier weergeven",
+        "pt-BR": "Exiba o fornecedor do produto",
+        "zh-CN": "显示产品厂商",
+        "zh-TW": "顯示產品廠商"
+      }
+    }
+  ]
+}
+{% endschema %}

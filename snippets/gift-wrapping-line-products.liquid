@@ -1,0 +1,127 @@
+
+
+{% if linklists.gift-wrapping.links.size > 0 and linklists.gift-wrapping.links.first.type == 'product_link' %}
+
+  <div id="is-a-gift" class="clearfix">
+    <div>
+      <input type="hidden" name="attributes[gift-wrapping-{{ item.id }}]" value="" />
+      
+      {% capture gift-wrapping-id %}gift-wrapping-{{ item.id }}{% endcapture %}
+      <input id="gift-wrapping-{{item.id}}" type="checkbox" name="attributes[gift-wrapping-{{ item.id }}]" value="yes" {% if cart.attributes[gift-wrapping-id] %} checked="checked"{% endif %} style="float: none" />
+      <label for="gift-wrapping-{{ item.id }}" style="display:inline; padding-left: 5px; float: none;">
+      Gift Wrap option ({{ linklists.gift-wrapping.links.first.object.price | money }} per item)
+      </label>
+    </div>
+  </div>
+
+{% assign id = linklists.gift-wrapping.links.first.object.variants.first.id %}
+
+{% assign gift_wraps_in_cart = 0 %}
+{% for item in cart.items %}
+  {% if item.id == id %}
+    {% assign gift_wraps_in_cart = item.quantity %}
+  {% endif %}
+{% endfor %}
+{% assign items_in_cart = cart.item_count | minus: gift_wraps_in_cart %}
+
+<style>
+  #updates_{{ id }} { display: none; }
+</style>
+
+<script>
+
+Shopify.Cart = Shopify.Cart || {};
+
+Shopify.Cart.GiftWrap = {};
+
+{% comment %} Shopify.Cart.GiftWrap.set = function(item_id) {
+  jQuery.ajax({
+    type: 'POST',
+    url: '/cart/update.js', 
+    data: { 
+        updates: {
+            // {{ id }}: {{ items_in_cart }},
+            {{ id }}: {{ gift_wraps_in_cart | plus: item.quantity }}
+        }, 
+        attributes: {
+            'gift-wrapping-'+: true 
+        }
+    }, 
+    dataType: 'json',
+    success: function() { location.href = '/cart'; }
+  });
+}
+
+Shopify.Cart.GiftWrap.remove = function(item_id) {
+  jQuery.ajax({
+    type: 'POST',
+    url: '/cart/update.js', 
+    data: {
+      updates: {
+        // {{ id }}: 0
+        {{ id }}: {{ gift_wraps_in_cart | minus: item.quantity }}
+      },
+      attributes: {
+        'gift-wrapping-'+item_id: ''
+      } 
+    }, 
+    dataType: 'json',
+    success: function() { location.href = '/cart'; }
+  });
+} {% endcomment %}
+
+
+// When the gift-wrapping checkbox is checked or unchecked.
+jQuery(function() {
+  jQuery('#gift-wrapping-{{ item.id }}').change(function() {
+    if (jQuery(this).is(':checked')) {
+      // Shopify.Cart.GiftWrap.set({{ item.id }});    
+        jQuery.ajax({
+            type: 'POST',
+            url: '/cart/update.js', 
+            data: { 
+                updates: {
+                    // {{ id }}: {{ items_in_cart }}
+                    {{ id }}: {{ gift_wraps_in_cart | plus: item.quantity }}
+                }, 
+                attributes: {
+                    'gift-wrapping-{{ item.id }}': true 
+                }
+            }, 
+            dataType: 'json',
+            success: function() { location.href = '/cart'; }
+        });
+    }
+    else {
+      // Shopify.Cart.GiftWrap.remove({{ item.id }});
+      jQuery.ajax({
+        type: 'POST',
+        url: '/cart/update.js', 
+        data: {
+          updates: {
+            // {{ id }}: 0
+            {{ id }}: {{ gift_wraps_in_cart | minus: item.quantity }}
+          },
+          attributes: {
+            'gift-wrapping-{{ item.id }}': '' 
+          } 
+        }, 
+        dataType: 'json',
+        success: function() { location.href = '/cart'; }
+      });
+    }
+  });
+});
+ 
+</script>
+
+{% else %}
+
+<p style="clear: left; margin: 30px 0" class="rte">
+  You attempted to add a gift-wrapping script to your shopping cart, but it won't work because you don't have 
+  a link list with handle <code>gift-wrapping</code> which, in turn, contains a link
+  to your gift-wrapping product. Please review the steps outlined 
+  <a href="http://docs.shopify.com/manual/configuration/store-customization/page-specific/cart-page/add-a-gift-wrap-option">here</a>.
+</p>
+
+{% endif %}

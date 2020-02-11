@@ -1,0 +1,107 @@
+<!-- DO NOT REMOVE THE FOLLOWING COMMENT -->
+<!-- (c) Copyright 2014 Caroline Hill. All Rights Reserved. Contact Mlle Caroline Schnapp at mllegeorgesand@gmail.com -->
+<!-- DO NOT REMOVE THE ABOVE COMMENT -->
+
+{% if linklists.gift-wrapping.links.size > 0 and linklists.gift-wrapping.links.first.type == 'product_link' %}
+
+  <div id="is-a-gift" style="clear: left; margin: 30px 0" class="clearfix rte">
+    <input type="hidden" name="attributes[gift-wrapping-single]" value="" />
+    <input type="hidden" name="attributes[gift-wrapping]" value="" />
+    <p>Please select your age: {{ cart.attributes.gift-wrapping }}</p>
+    <input type="checkbox" name="attributes[gift-wrapping]" value="yes" {% if cart.attributes.gift-wrapping %} checked="checked"{% endif %} style="float: none"> For {{ linklists.gift-wrapping.links.first.object.price | money }} per item,
+      please wrap the products in this order.<br>
+    <input type="checkbox" name="attributes[gift-wrapping]" value="yes" {% if cart.attributes.gift-wrapping %} checked="checked"{% endif %} style="float: none"> For {{ linklists.gift-wrapping.links.first.object.price | money }} 
+      please wrap the products in this order.<br>
+    
+    <p>
+      <label style="display:block" for="gift-note">Gift message (free and optional):</label>
+      <textarea name="attributes[gift-note]" id="gift-note">{{ cart.attributes.gift-note }}</textarea>
+    </p>
+  </div>
+
+{% assign id = linklists.gift-wrapping.links.first.object.variants.first.id %}
+
+{% assign gift_wraps_in_cart = 0 %}
+{% for item in cart.items %}
+  {% if item.id == id %}
+    {% assign gift_wraps_in_cart = item.quantity %}
+  {% endif %}
+{% endfor %}
+{% assign items_in_cart = cart.item_count | minus: gift_wraps_in_cart %}
+
+<style>
+  #updates_{{ id }} { display: none; }
+</style>
+
+<script>
+
+Shopify.Cart = Shopify.Cart || {};
+
+Shopify.Cart.GiftWrap = {};
+
+Shopify.Cart.GiftWrap.set = function() {
+  jQuery.ajax({
+    type: 'POST',
+    url: '/cart/update.js', 
+    data: { updates: { {{ id }}: {{ items_in_cart }} }, attributes: { 'gift-wrapping': true } }, 
+    dataType: 'json',
+    success: function() { location.href = '/cart'; }
+  });
+}
+
+Shopify.Cart.GiftWrap.remove = function() {
+  jQuery.ajax({
+    type: 'POST',
+    url: '/cart/update.js', 
+    data: { updates: { {{ id }}: 0 }, attributes: { 'gift-wrapping': '' } }, 
+    dataType: 'json',
+    success: function() { location.href = '/cart'; }
+  });
+}
+
+// If we have nothing but gift-wrap items in the cart.
+{% if cart.items.size == 1 and gift_wraps_in_cart > 0 %}
+jQuery(function() {
+  Shopify.Cart.GiftWrap.remove();
+});
+// If we don't have the right amount of gift-wrap items in the cart.
+{% elsif gift_wraps_in_cart > 0 and gift_wraps_in_cart != items_in_cart %}
+jQuery(function() {
+  Shopify.Cart.GiftWrap.set();
+});
+// If we have a gift-wrap item in the cart but our gift-wrapping cart attribute has not been set.
+{% elsif gift_wraps_in_cart > 0 and cart.attributes.gift-wrapping == blank  %}
+jQuery(function() {
+  Shopify.Cart.GiftWrap.set();
+});
+// If we have no gift-wrap item in the cart but our gift-wrapping cart attribute has been set.
+{% elsif gift_wraps_in_cart == 0 and cart.attributes.gift-wrapping != blank  %}
+jQuery(function() {
+  Shopify.Cart.GiftWrap.set();
+});
+{% endif %}
+
+// When the gift-wrapping checkbox is checked or unchecked.
+jQuery(function() {
+  jQuery('[name="attributes\[gift-wrapping\]"]').change(function() {
+    if (jQuery(this).is(':checked')) {
+      Shopify.Cart.GiftWrap.set();    
+    }
+    else {
+      Shopify.Cart.GiftWrap.remove();
+    }
+  });
+});
+ 
+</script>
+
+{% else %}
+
+<p style="clear: left; margin: 30px 0" class="rte">
+  You attempted to add a gift-wrapping script to your shopping cart, but it won't work because you don't have 
+  a link list with handle <code>gift-wrapping</code> which, in turn, contains a link
+  to your gift-wrapping product. Please review the steps outlined 
+  <a href="http://docs.shopify.com/manual/configuration/store-customization/page-specific/cart-page/add-a-gift-wrap-option">here</a>.
+</p>
+
+{% endif %}

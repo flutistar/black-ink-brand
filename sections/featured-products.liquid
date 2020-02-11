@@ -1,0 +1,202 @@
+<div id="CollectionSection" data-section-id="{{ section.id }}" data-section-type="collection-template" data-grid-type="{{ section.settings.collection_products_grid }}">
+  <div class="wrapper">
+    {% if section.settings.title != blank %}
+      <div class="section-header text-center">
+        <h2 class="h1 section-header__title">{{ section.settings.title | escape }}</h2>
+        <hr class="hr--small">
+      </div>
+    {% endif %}
+
+    <div class="{% if section.settings.collection_products_grid == 'collage' %}grid grid-collage{% else %}grid-uniform{% endif %}">
+
+      {% comment %}
+        Loop through products in your Frontpage collection.
+        This collection is created by default, but you must add products to it.
+
+        See the snippet 'snippets/product-grid-collage.liquid'.
+
+        `is_reverse_row_product`, `three_row_index_product`, `collection_product_count_product`, and `divisible_by_three_product` are
+        all used by 'snippets/product-grid-collage.liquid'
+      {% endcomment %}
+
+      {% if section.settings.home_featured_products == blank or collections[section.settings.home_featured_products] == empty or collections[section.settings.home_featured_products].products_count == 0 %}
+
+      {% comment %}
+        For onboarding new users to your theme, we add some default products and onboarding tutorials to help populate their store
+      {% endcomment %}
+      {% unless emptyState %}
+        {% assign emptyState = true %}
+      {% endunless %}
+        {% include 'onboarding-featured-products' %}
+      {% else %}
+
+        {% if section.settings.collection_products_grid == 'collage' %}
+
+          {% assign is_reverse_row__product = false %}
+          {% assign three_row_index__product = 0 %}
+          {% if collections[section.settings.home_featured_products].products_count > 50 %}
+            {% assign collection_product_count__product = 50 %}
+          {% else %}
+            {% assign collection_product_count__product = collections[section.settings.home_featured_products].products_count %}
+          {% endif %}
+          {% assign divisible_by_three__product = collection_product_count__product | modulo:3 %}
+
+          {% for product in collections[section.settings.home_featured_products].products %}
+            {% include 'product-grid-collage' %}
+          {% endfor %}
+
+        {% else %}
+
+          {% assign grid_item_width = 'medium--one-half large--one-third' %}
+          {% for product in collections[section.settings.home_featured_products].products %}
+            {% include 'product-grid-item' %}
+          {% endfor %}
+
+        {% endif %}
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "de": "Featured Kategorie",
+    "en": "Featured collection",
+    "es": "colección destacada",
+    "fr": "Collection en vedette",
+    "it": "Collezione in evidenza",
+    "ja": "特集コレクション",
+    "nl": "Uitgelichte collectie",
+    "pt-BR": "Coleção em destaque",
+    "zh-CN": "特色产品系列",
+    "zh-TW": "精選商品系列"
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": {
+        "de": "Überschrift",
+        "en": "Heading",
+        "es": "Título",
+        "fr": "Titre",
+        "it": "Heading",
+        "ja": "見出し",
+        "nl": "Kop",
+        "pt-BR": "Título",
+        "zh-CN": "标题",
+        "zh-TW": "標題"
+      },
+      "default": {
+        "de": "Featured Kategorie",
+        "en": "Featured collection",
+        "es": "colección destacada",
+        "fr": "Collection en vedette",
+        "it": "Collezione in evidenza",
+        "ja": "特集コレクション",
+        "nl": "Uitgelichte collectie",
+        "pt-BR": "Coleção em destaque",
+        "zh-CN": "特色产品系列",
+        "zh-TW": "精選商品系列"
+      }
+    },
+    {
+      "type": "collection",
+      "id": "home_featured_products",
+      "label": {
+        "de": "Kategorie",
+        "en": "Collection",
+        "es": "colección",
+        "fr": "Collection",
+        "it": "collezione",
+        "ja": "コレクション",
+        "nl": "Collectie",
+        "pt-BR": "Coleção",
+        "zh-CN": "收藏",
+        "zh-TW": "商品系列"
+      }
+    },
+    {
+      "type": "select",
+      "id": "collection_products_grid",
+      "label": {
+        "de": "Rasterstil",
+        "en": "Grid style",
+        "es": "Estilo de cuadrícula",
+        "fr": "Style de grille",
+        "it": "Stile griglia",
+        "ja": "グリッドスタイル",
+        "nl": "Rasterstijl",
+        "pt-BR": "Estilo da grade",
+        "zh-CN": "网格样式",
+        "zh-TW": "網格樣式"
+      },
+      "options": [
+        {
+          "value": "collage",
+          "label": {
+            "de": "Collage",
+            "en": "Collage",
+            "es": "Collage",
+            "fr": "Collage",
+            "it": "Collage",
+            "ja": "コラージュ",
+            "nl": "Collage",
+            "pt-BR": "Colagem",
+            "zh-CN": "拼贴画",
+            "zh-TW": "拼貼"
+          }
+        },
+        {
+          "value": "grid",
+          "label": {
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fr": "Grille",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "nl": "Raster",
+            "pt-BR": "Grade",
+            "zh-CN": "网格",
+            "zh-TW": "網格"
+          }
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": {
+        "de": "Featured Kategorie",
+        "en": "Featured collection",
+        "es": "colección destacada",
+        "fr": "Collection en vedette",
+        "it": "Collezione in evidenza",
+        "ja": "特集コレクション",
+        "nl": "Uitgelichte collectie",
+        "pt-BR": "Coleção em destaque",
+        "zh-CN": "特色产品系列",
+        "zh-TW": "精選商品系列"
+      },
+      "category": {
+        "de": "Kategorie",
+        "en": "Collection",
+        "es": "Colección",
+        "fr": "Collection",
+        "it": "Collezione",
+        "ja": "コレクション",
+        "nl": "Collectie",
+        "pt-BR": "Coleção",
+        "zh-CN": "收藏",
+        "zh-TW": "商品系列"
+      }
+    }
+  ],
+  "blocks": []
+}
+{% endschema %}

@@ -1,0 +1,123 @@
+{% if collection.image %}
+  <div class="collection-hero">
+    <noscript>
+      <div class="collection-hero__image-no-js" style="background-image:url({{ collection.image | img_url: '2048x2048' }});"></div>
+    </noscript>
+    <div class="collection-hero__image-wrapper">
+      {% assign img_url = collection.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+      <img class="collection-hero__image lazyload"
+        src="{{ collection.image | img_url: '300x' }}"
+        data-src="{{ img_url }}"
+        data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048, 4472]"
+        data-aspectratio="{{ collection.image.aspect_ratio }}"
+        data-sizes="auto"
+        data-parent-fit="cover"
+        alt="{{ collection.image.alt | escape }}">
+    </div>
+  </div>
+{% endif %}
+
+<div id="CollectionSection" class="wrapper" data-section-id="{{ section.id }}" data-section-type="collection-template" data-grid-type="{{ section.settings.collection_products_grid }}">
+  {% include 'collection-template' %}
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "de": "Kategoriebilderseiten",
+    "en": "Collection image pages",
+    "es": "Imagen de colección",
+    "fr": "Images de la collection",
+    "it": "Immagini collezioni",
+    "ja": "コレクションの画像ページ",
+    "nl": "Collectie foto pagina's",
+    "pt-BR": "Imagens da coleção",
+    "zh-CN": "产品系列图片页面",
+    "zh-TW": "商品系列圖片頁面"
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection_products_grid",
+      "label": {
+        "de": "Rasterstil",
+        "en": "Grid style",
+        "es": "Estilo de cuadrícula",
+        "fr": "Style de grille",
+        "it": "Stile griglia",
+        "ja": "グリッドスタイル",
+        "nl": "Rasterstijl",
+        "pt-BR": "Estilo da grade",
+        "zh-CN": "网格样式",
+        "zh-TW": "網格樣式"
+      },
+      "options": [
+        {
+          "value": "collage",
+          "label": {
+            "de": "Collage",
+            "en": "Collage",
+            "es": "Collage",
+            "fr": "Collage",
+            "it": "Collage",
+            "ja": "コラージュ",
+            "nl": "Collage",
+            "pt-BR": "Colagem",
+            "zh-CN": "拼贴画",
+            "zh-TW": "拼貼"
+          }
+        },
+        {
+          "value": "grid",
+          "label": {
+            "de": "Raster",
+            "en": "Grid",
+            "es": "Cuadrícula",
+            "fr": "Grille",
+            "it": "Griglia",
+            "ja": "グリッド",
+            "nl": "Raster",
+            "pt-BR": "Grade",
+            "zh-CN": "网格",
+            "zh-TW": "網格"
+          }
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "collection_tags_enable",
+      "label": {
+        "de": "Kategorie-Tags anzeigen",
+        "en": "Show collection tags",
+        "es": "Mostrar etiquetas de colección",
+        "fr": "Afficher les balises de la collection",
+        "it": "Mostra tag della collezione",
+        "ja": "コレクションのタグを表示する",
+        "nl": "Toon collectie-tags",
+        "pt-BR": "Exibir tags de coleção",
+        "zh-CN": "显示产品系列标记",
+        "zh-TW": "顯示商品系列標籤"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "product_vendor_enable",
+      "label": {
+        "de": "Produktverkäufer anzeigen",
+        "en": "Show product vendor",
+        "es": "Mostrar proveedor del producto",
+        "fr": "Afficher le distributeur du produit",
+        "it": "Indica fornitore prodotto",
+        "ja": "商品の販売元を表示する",
+        "nl": "Productleverancier weergeven",
+        "pt-BR": "Exiba o fornecedor do produto",
+        "zh-CN": "显示产品厂商",
+        "zh-TW": "顯示產品廠商"
+      }
+    }
+  ]
+}
+{% endschema %}
